@@ -5,16 +5,17 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Create User') }}</div>
+                <div class="card-header">{{ __('Edit User') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('users.store') }}">
+                    <form method="POST" action="{{ route('users.update', $user->id) }}">
                         @csrf
+                        @method('PUT')
 
                         <!-- Name -->
                         <div class="mb-3">
                             <x-label for="name">Name</x-label>
-                            <x-input type="text" name="name" id="name" value="{{ old('name') }}" required autofocus />
+                            <x-input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required />
                             @error('name')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -23,16 +24,16 @@
                         <!-- Email -->
                         <div class="mb-3">
                             <x-label for="email">Email</x-label>
-                            <x-input type="email" name="email" id="email" value="{{ old('email') }}" required />
+                            <x-input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required />
                             @error('email')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <!-- Password -->
+                        <!-- Optional Password -->
                         <div class="mb-3">
-                            <x-label for="password">Password</x-label>
-                            <x-input type="password" name="password" id="password" required />
+                            <x-label for="password">Password (leave blank to keep current)</x-label>
+                            <x-input type="password" name="password" id="password" />
                             @error('password')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -41,11 +42,11 @@
                         <!-- Confirm Password -->
                         <div class="mb-3">
                             <x-label for="password_confirmation">Confirm Password</x-label>
-                            <x-input type="password" name="password_confirmation" id="password_confirmation" required />
+                            <x-input type="password" name="password_confirmation" id="password_confirmation" />
                         </div>
 
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-success">Create</button>
+                            <button type="submit" class="btn btn-warning">Update</button>
                             <a href="{{ route('users.index') }}" class="btn btn-secondary ms-2">Cancel</a>
                         </div>
                     </form>
