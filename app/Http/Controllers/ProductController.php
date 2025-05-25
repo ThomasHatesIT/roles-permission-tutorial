@@ -12,7 +12,7 @@ class ProductController extends Controller
     public function index()
     {
 
-        $product = Product::all();
+        $product = Product::latest()->paginate(10);
        return view('products.index', [
         'products' =>  $product,
        ]);
@@ -23,7 +23,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+         return view('products.create');
     }
 
     /**
@@ -31,7 +31,17 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+           
+        ]);
+
+        Product::create([
+            'name' => $validated['name'],
+            
+        ]);
+
+        return redirect()->route('products.index')->with('status', 'product created successfully!');
     }
 
     /**
@@ -39,7 +49,11 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+             return view('products.show', [
+                'product' => $product,
+             ]);
     }
 
     /**
@@ -47,22 +61,42 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+      $product = Product::findOrFail($id);
+
+             return view('products.edit', [
+                'product' => $product,
+             ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,$id)
     {
-        //
+         $product = Product::findOrFail($id);
+
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+       
+    ]);
+
+
+
+  
+
+    $product->update($validated);
+
+    return redirect()->route('products.index')->with('status', 'Product updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+ $product = Product::findOrFail($id);
+
+        $product->delete();
+     return redirect('/products');
     }
 }
