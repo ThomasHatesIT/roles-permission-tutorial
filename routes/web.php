@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Hash;
 Route::get('/', function () {
     return view('welcome');
@@ -15,3 +16,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::resource('users', UserController::class);
+Route::resource('products', ProductController::class);
