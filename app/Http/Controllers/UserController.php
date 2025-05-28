@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
+  
     /**
      * Display a listing of the resource.
      */
@@ -40,7 +41,7 @@ class UserController extends Controller
     {
 
 
-        dd($request->all());
+      
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -59,14 +60,16 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
-    {
-         $user = User::findOrFail($id);
+   public function show($id)
+{
+    $user = User::findOrFail($id);
+    $userRoles = $user->roles; // Get roles assigned to this user
 
-         return view('users.show', [
-            'user' => $user ,
-         ]);
-    }
+    return view('users.show', [
+        'user' => $user,
+        'userRoles' => $userRoles,
+    ]);
+}
 
     /**
      * Show the form for editing the specified resource.
@@ -74,9 +77,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-
+           $role = Role::all();
         return view('users.edit',[
             'user' =>  $user,
+            'roles' => $role,
         ]);
     }
 
@@ -103,7 +107,7 @@ public function update(Request $request, $id)
     }
 
     $user->update($data);
-
+        $user->syncRoles($request->roles);
     return redirect()->route('users.index')->with('status', 'User updated successfully!');
 }
 

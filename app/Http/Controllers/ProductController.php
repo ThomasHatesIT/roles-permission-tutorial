@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 class ProductController extends Controller
 {
+
+    
+public function __construct(){
+    
+      $this->middleware(['permission:products-edit'], ["only" => ["edit", "update"]]); 
+}
+
     /**
      * Display a listing of the resource.
      */

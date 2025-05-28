@@ -7,6 +7,13 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 class RolesController extends Controller
 {
+
+public function __construct(){
+    $this->middleware(['permission:role-create'], ["only" => ["create", "store"]]); 
+      $this->middleware(['permission:products-edit'], ["only" => ["edit", "update"]]); 
+}
+
+
     /**
      * Display a listing of the resource.
      */

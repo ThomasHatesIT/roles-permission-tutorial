@@ -36,9 +36,12 @@
                     @endif
 
                     <div class="d-flex justify-content-end gap-2">
+                
+                            @can('role-edit')
                         <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-outline-warning">
                             <i class="bi bi-pencil-square me-1"></i> Edit
                         </a>
+                        @endcan
                         <a href="{{ route('roles.index') }}" class="btn btn-outline-secondary">
                             <i class="bi bi-arrow-left me-1"></i> Back
                         </a>

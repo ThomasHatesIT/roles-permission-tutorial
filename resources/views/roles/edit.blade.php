@@ -51,9 +51,11 @@
                 </div>
 
                 <div class="mt-4 d-flex justify-content-end gap-2">
+                
                     <button type="submit" class="btn btn-success">
                         <i class="bi bi-save me-1"></i> Update
                     </button>
+      
                     <a href="{{ route('roles.index') }}" class="btn btn-secondary">
                         <i class="bi bi-arrow-left me-1"></i> Cancel
                     </a>
