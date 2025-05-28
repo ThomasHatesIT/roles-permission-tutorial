@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -25,7 +27,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+            $roles = Role::all();
+        return view('users.create', [ 
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -33,18 +38,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+
+        dd($request->all());
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        User::create([
+      $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
-
+        $user->syncRoles($request->roles);
         return redirect()->route('users.index')->with('status', 'User created successfully!');
     }
 

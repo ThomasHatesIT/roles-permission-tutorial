@@ -29,6 +29,18 @@
                             @enderror
                         </div>
 
+                         <!-- Roles -->
+                   <div class="mb-3">
+                                            <label for="role" class="form-label fw-semibold">Role</label>
+                                            <select class="form-select form-select-lg" name="roles[]" id="role" multiple size="5">
+                                                <option disabled>==Select Role==</option>
+                                                @foreach ($roles as $role)
+                                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="form-text text-muted">Hold Ctrl/Cmd to select multiple roles</div>
+                    </div>
+
                         <!-- Password -->
                         <div class="mb-3">
                             <x-label for="password">Password</x-label>
